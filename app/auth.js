@@ -51,7 +51,12 @@ exports.requireLogin = (req, res, next) => {
 exports.authenticate = (name, options) => (req, res, next) => {
   passport.authenticate(name, options, (error, user, info) => {
     if (error) { return next(error); }
-    if (!user) { return res.json(info); }
+    if (!user) {
+      if (info.result === undefined) {
+        info.result = false;
+      }
+      return res.json(info);
+    }
     return next();
   })(req, res, next);
 };

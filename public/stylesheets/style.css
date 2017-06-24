@@ -6,6 +6,11 @@
   margin-bottom: 20px;
 }
 
+.form-signin #loginAlert {
+  display: none;
+  margin-top: 10px;
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
