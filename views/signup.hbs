@@ -1,0 +1,22 @@
+<form id="signupForm" class="form-signup">
+  <h2 class="form-signup-heading">Регистрация</h2>
+
+  <label for="inputUsername" class="sr-only">Логин</label>
+  <input type="text" id="inputUsername" class="form-control" placeholder="Логин" required autofocus>
+
+  <label for="inputPassword" class="sr-only">Пароль</label>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>
+  <label for="inputPassword" class="sr-only">Повтор пароля</label>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Повтор пароля" required>
+
+  <label for="inputEmail" class="sr-only">Почта</label>
+  <input type="email" id="inputEmail" class="form-control" placeholder="Почта" required>
+
+  <button id="signupButton" class="btn btn-lg btn-primary btn-block" type="submit">Продолжить</button>
+
+  <div class="alert alert-warning fade show" id="signupAlert" role="alert">
+    <strong>Ошибка!</strong> <span id="loginAlertText"></span>
+  </div>
+</form>
+
+<script src="/javascripts/signup.js"></script>
