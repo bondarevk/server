@@ -3,18 +3,30 @@ const passport = require('passport');
 
 const auth = require('./auth');
 
-const mainRouter = express.Router();
+const router = express.Router();
 
-mainRouter.get('/', (req, res) => {
+/**
+ * Views
+ */
+router.get('/', (req, res) => {
   res.render('index.hbs');
 });
+router.get('/login', (req, res) => {
+  res.render('login.hbs');
+});
+router.get('/signup', (req, res) => {
+  res.render('signup.hbs');
+});
 
-mainRouter.post('/login', auth.authenticate('local'), (req, res, next) => {
+/**
+ * API
+ */
+router.post('/login', auth.authenticate('local'), (req, res, next) => {
   res.json({ result: 'success' });
 });
-mainRouter.post('/signup', auth.signup);
-mainRouter.post('/test', auth.requireLogin, (req, res, next) => {
+router.post('/signup', auth.signup);
+router.post('/test', auth.requireLogin, (req, res, next) => {
   res.json({ result: 'done' });
 });
 
-module.exports = mainRouter;
+module.exports = router;
