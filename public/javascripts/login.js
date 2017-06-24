@@ -4,7 +4,7 @@ $('#loginForm').submit(function (event) {
   $.ajax({
     type: 'POST',
     url: '/login',
-    data: { username: $('#inputEmail').val(), password: $('#inputPassword').val() }
+    data: { username: $('#inputUsername').val(), password: $('#inputPassword').val() }
   })
     .done(function (res) {
       if (res.result === false) {
