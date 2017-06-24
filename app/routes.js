@@ -27,6 +27,10 @@ router.get('/signup', (req, res) => {
 /**
  * API
  */
+router.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
 router.post('/login', auth.authenticate('local'), (req, res, next) => {
   res.json({ result: true });
 });
