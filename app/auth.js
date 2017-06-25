@@ -2,13 +2,13 @@ const passport = require('passport');
 const User = require('./models/user');
 
 exports.signup = (req, res, next) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
-
-  if (!username || !password || !email) {
+  if (!req.body.username || !req.body.password || !req.body.email) {
     return res.json({ message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false });
   }
+
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email.trim();
 
   User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
     .then((user) => {
