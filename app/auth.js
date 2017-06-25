@@ -10,32 +10,39 @@ exports.signup = (req, res, next) => {
     return res.json({ message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false });
   }
 
-  User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
-    .then((existingUser) => {
+  User.count({ username }, null, {collation: {locale: 'en', strength: 2}})
+    .then((count) => {
 
-      if (existingUser) {
+      if (count > 0) {
         return res.json({ message: 'Этот логин занят.', message_code: 3, result: false });
       }
 
-      const user = new User({
-        'username': username,
-        'local.email': email,
-        'local.password': password
-      });
-      user.save()
-        .then((user) => {
-          req.logIn(user, function() {
-            res.json({ message: '', message_code: 1, result: true });
-          });
-        })
-        .catch((error) => {
-          if (error.name === 'ValidationError') {
-            if (Object.values(error.errors).length > 0) {
-              return res.json({ message: Object.values(error.errors)[0].message, message_code: 4, result: false });
-            }
-            return res.json({ message: error.message, message_code: 4, result: false });
+      User.count({ 'local.email': email }, null, {collation: {locale: 'en', strength: 2}})
+        .then((count) => {
+          if (count > 0) {
+            return res.json({ message: 'На этот email уже зарегистрирован аккаунт. Если этот аккаунт ваш, то вы можете <a href="/signin">войти на сайт</a> или <a href="/reset">восстановить пароль</a>.', message_code: 3, result: false });
           }
-          return next(error);
+
+          const user = new User({
+            'username': username,
+            'local.email': email,
+            'local.password': password
+          });
+          user.save()
+            .then((user) => {
+              req.logIn(user, function() {
+                res.json({ message: '', message_code: 1, result: true });
+              });
+            })
+            .catch((error) => {
+              if (error.name === 'ValidationError') {
+                if (Object.values(error.errors).length > 0) {
+                  return res.json({ message: Object.values(error.errors)[0].message, message_code: 4, result: false });
+                }
+                return res.json({ message: error.message, message_code: 4, result: false });
+              }
+              return next(error);
+            })
         })
     })
     .catch((error) => {
