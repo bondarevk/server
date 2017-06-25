@@ -10,16 +10,19 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   res.render('index.hbs', {
+    title: 'bondarevk',
     user: req.user
   });
 });
 router.get('/login', (req, res) => {
   res.render('login.hbs', {
+    title: 'Вход',
     user: req.user
   });
 });
 router.get('/signup', (req, res) => {
   res.render('signup.hbs', {
+    title: 'Регистрация',
     user: req.user
   });
 });
@@ -31,6 +34,7 @@ router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
 });
+router.post('/check-username', auth.checkUsername);
 router.post('/login', auth.authenticate('local'), (req, res, next) => {
   res.json({ result: true });
 });

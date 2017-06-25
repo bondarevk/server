@@ -24,7 +24,9 @@ exports.signup = (req, res, next) => {
       });
       user.save()
         .then((user) => {
-          res.json({ message: '', message_code: 1, result: true })
+          req.logIn(user, function() {
+            res.json({ message: '', message_code: 1, result: true });
+          });
         })
         .catch((error) => {
           if (error.name === 'ValidationError') {
@@ -35,6 +37,25 @@ exports.signup = (req, res, next) => {
           }
           return next(error);
         })
+    })
+    .catch((error) => {
+      return next(error);
+    })
+};
+
+exports.checkUsername = (req, res, next) => {
+  const username = req.body.username;
+  if (!username) {
+    return res.json({ result: false });
+  }
+
+  User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
+    .then((existingUser) => {
+      if (existingUser) {
+        return res.json({ result: false });
+      } else {
+        return res.json({ result: true });
+      }
     })
     .catch((error) => {
       return next(error);

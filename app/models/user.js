@@ -9,7 +9,7 @@ const UserSchema = mongoose.Schema({
       index: true,
       unique: true,
       required: true,
-      match: [/^[\w@$!%*#?&]{3,16}$/, 'Логин не соответствует требованиям']
+      match: [/^[\w]{3,16}$/, 'Имя пользователя не соответствует требованиям']
     },
     role: {
       type: Number,
@@ -40,7 +40,7 @@ const UserSchema = mongoose.Schema({
 UserSchema.pre('save', function (next) {
   if (!this.isModified('local.password')) return next();
 
-  if (this.local.password !== null && !this.local.password.match(/^[\w@$!%*#?&]{8,32}$/)) {
+  if (this.local.password !== null && !this.local.password.match(/^[\w@$!%*#?&]{6,32}$/)) {
     const err = new ValidationError();
     err.message = 'Пароль не соответствует требованиям';
     return next(err);
