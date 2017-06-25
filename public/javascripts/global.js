@@ -16,7 +16,7 @@ function signup(username, password, email, cb) {
 function signin(username, password, cb) {
   $.ajax({
     type: 'POST',
-    url: '/login',
+    url: '/signin',
     data: { username, password }
   })
     .done(function (res) {

@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
     user: req.user
   });
 });
-router.get('/login', (req, res) => {
-  res.render('login.hbs', {
+router.get('/signin', (req, res) => {
+  res.render('signin.hbs', {
     title: 'Вход',
     user: req.user
   });
@@ -35,11 +35,11 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 router.post('/check-username', auth.checkUsername);
-router.post('/login', auth.authenticate('local'), (req, res, next) => {
+router.post('/signin', auth.authenticate('local'), (req, res, next) => {
   res.json({ result: true });
 });
 router.post('/signup', auth.signup);
-router.get('/test', auth.requireLogin, (req, res, next) => {
+router.get('/test', auth.requireSignin, (req, res, next) => {
   res.json({ result: 'done' });
 });
 

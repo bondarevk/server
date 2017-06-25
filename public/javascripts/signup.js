@@ -18,7 +18,9 @@ function changePopoverContent(elem, type, content) {
       break;
   }
   elem.data('bs.popover').config.content = content;
-  elem.popover('show');
+  if (elem.attr('aria-describedby')) {
+    elem.popover('show');
+  }
 }
 
 /*
@@ -207,14 +209,24 @@ function inputEmailValidator(value) {
   Регистрация
  */
 
-function checkAllInputs() {
+function checkAllInputs(focus) {
   var fields = $('.form-control').not('.form-control-success');
   if (fields.length > 0) {
-    fields[0].focus();
+    checkUsernameInput();
+    checkPasswordInput();
+    checkPasswordRepeatInput();
+    checkEmailInput();
+    fields.each(function (index) {
+      $(this).popover('hide');
+    });
+    if (focus)
+      fields[0].focus();
     return false;
   }
   return true;
 }
+// После загрузки страницы поля могут быть сразу заполнены браузером.
+checkAllInputs();
 
 $('#signupForm').submit(function (event) {
   var signupButton = $('#signupButton');
@@ -223,7 +235,7 @@ $('#signupForm').submit(function (event) {
 
   signupAlert.hide();
   signupButton.prop('disabled', true);
-  if (!checkAllInputs()) {
+  if (!checkAllInputs(true)) {
     signupAlertText.html('Заполните все поля.');
     signupAlert.show(100);
     signupButton.prop('disabled', false);

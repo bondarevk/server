@@ -10,25 +10,25 @@ exports.signup = (req, res, next) => {
     return res.json({ message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false });
   }
 
-  User.count({ username }, null, {collation: {locale: 'en', strength: 2}})
-    .then((count) => {
+  User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
+    .then((user) => {
 
-      if (count > 0) {
+      if (user) {
         return res.json({ message: 'Этот логин занят.', message_code: 3, result: false });
       }
 
-      User.count({ 'local.email': email }, null, {collation: {locale: 'en', strength: 2}})
-        .then((count) => {
-          if (count > 0) {
-            return res.json({ message: 'На этот email уже зарегистрирован аккаунт. Если этот аккаунт ваш, то вы можете <a href="/signin">войти на сайт</a> или <a href="/reset">восстановить пароль</a>.', message_code: 3, result: false });
+      User.findOne({ 'local.email': email }, null, {collation: {locale: 'en', strength: 2}})
+        .then((user) => {
+          if (user) {
+            return res.json({ message: 'На этот email уже зарегистрирован аккаунт. Если этот аккаунт ваш, то вы можете <a href="/signin" target="_blank">войти на сайт</a> или <a href="/reset" target="_blank">восстановить пароль</a>.', message_code: 3, result: false });
           }
 
-          const user = new User({
+          const newUser = new User({
             'username': username,
             'local.email': email,
             'local.password': password
           });
-          user.save()
+          newUser.save()
             .then((user) => {
               req.logIn(user, function() {
                 res.json({ message: '', message_code: 1, result: true });
@@ -69,11 +69,11 @@ exports.checkUsername = (req, res, next) => {
     })
 };
 
-exports.requireLogin = (req, res, next) => {
+exports.requireSignin = (req, res, next) => {
   if (req.isAuthenticated())
     return next();
 
-  res.redirect('/login');
+  res.redirect('/signin');
 };
 
 exports.authenticate = (name, options) => (req, res, next) => {
