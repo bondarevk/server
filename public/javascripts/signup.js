@@ -121,8 +121,8 @@ function checkPasswordInput() {
 }
 
 function inputPasswordValidator(value) {
-  if (!value.match(/^[\w@$!%*#?&]+$/)) {
-    return 'Можно использовать латинские буквы, цифры и символы _@$!%*#?&';
+  if (!value.match(/^[\w@$!,.%*#?&]+$/)) {
+    return 'Можно использовать латинские буквы, цифры и символы _@$!,.%*#?&';
   }
   if (value.length < 6) {
     return 'Слишком короткий пароль.';
