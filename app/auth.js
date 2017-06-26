@@ -1,53 +1,68 @@
 const passport = require('passport');
 const User = require('./models/user');
+const reCAPTCHA = require('recaptcha2');
+const reCaptcha = new reCAPTCHA({
+  siteKey: '6LcB5CYUAAAAABc0xPpUrI-ejGAiAoVuXiRC9nKL',
+  secretKey: '6LcB5CYUAAAAAFVRVKQ9-EnmlkxDsjI7WEKD4ESf'
+});
+
 
 exports.signup = (req, res, next) => {
-  if (!req.body.username || !req.body.password || !req.body.email) {
-    return res.json({ message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false });
-  }
+  reCaptcha.validateRequest(req)
+    .then(function(){
 
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email.trim();
-
-  User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
-    .then((user) => {
-
-      if (user) {
-        return res.json({ message: 'Этот логин занят.', message_code: 3, result: false });
+      if (!req.body.username || !req.body.password || !req.body.email) {
+        return res.json({ message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false });
       }
 
-      User.findOne({ 'local.email': email }, null, {collation: {locale: 'en', strength: 2}})
+      const username = req.body.username;
+      const password = req.body.password;
+      const email = req.body.email.trim();
+
+      User.findOne({ username }, null, {collation: {locale: 'en', strength: 2}})
         .then((user) => {
+
           if (user) {
-            return res.json({ message: 'На этот email уже зарегистрирован аккаунт. Если этот аккаунт ваш, то вы можете <a href="/signin" target="_blank">войти на сайт</a> или <a href="/reset" target="_blank">восстановить пароль</a>.', message_code: 3, result: false });
+            return res.json({ message: 'Этот логин занят.', message_code: 3, result: false });
           }
 
-          const newUser = new User({
-            'username': username,
-            'local.email': email,
-            'local.password': password
-          });
-          newUser.save()
+          User.findOne({ 'local.email': email }, null, {collation: {locale: 'en', strength: 2}})
             .then((user) => {
-              req.logIn(user, function() {
-                res.json({ message: '', message_code: 1, result: true });
-              });
-            })
-            .catch((error) => {
-              if (error.name === 'ValidationError') {
-                if (Object.values(error.errors).length > 0) {
-                  return res.json({ message: Object.values(error.errors)[0].message, message_code: 4, result: false });
-                }
-                return res.json({ message: error.message, message_code: 4, result: false });
+              if (user) {
+                return res.json({ message: 'На этот email уже зарегистрирован аккаунт. Если этот аккаунт ваш, то вы можете <a href="/signin" target="_blank">войти на сайт</a> или <a href="/reset" target="_blank">восстановить пароль</a>.', message_code: 3, result: false });
               }
-              return next(error);
+
+              const newUser = new User({
+                'username': username,
+                'local.email': email,
+                'local.password': password
+              });
+              newUser.save()
+                .then((user) => {
+                  req.logIn(user, function() {
+                    res.json({ message: '', message_code: 1, result: true });
+                  });
+                })
+                .catch((error) => {
+                  if (error.name === 'ValidationError') {
+                    if (Object.values(error.errors).length > 0) {
+                      return res.json({ message: Object.values(error.errors)[0].message, message_code: 4, result: false });
+                    }
+                    return res.json({ message: error.message, message_code: 4, result: false });
+                  }
+                  return next(error);
+                })
             })
         })
+        .catch((error) => {
+          return next(error);
+        })
+
     })
-    .catch((error) => {
-      return next(error);
-    })
+    .catch(function(errorCodes){
+      res.json({ message: recaptcha.translateErrors(errorCodes), message_code: 5, result: false });
+    });
+
 };
 
 exports.checkUsername = (req, res, next) => {
