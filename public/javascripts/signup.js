@@ -237,33 +237,34 @@ $('#signupForm').submit(function (event) {
   signupAlert.hide();
   signupButton.prop('disabled', true);
 
-  var recaptchaResponse = grecaptcha.getResponse();
-  if (!recaptchaResponse) {
-    signupAlertText.html('Пройдите проверку reCaptcha.');
+  if (!checkAllInputs(true)) {
+    signupAlertText.html('Заполните все поля.');
     signupAlert.show(100);
     signupButton.prop('disabled', false);
     return;
   }
 
-  if (!checkAllInputs(true)) {
-    signupAlertText.html('Заполните все поля.');
+  var recaptchaResponse = grecaptcha.getResponse();
+  if (!recaptchaResponse) {
+    signupAlertText.html('Пройдите проверку reCAPTCHA.');
     signupAlert.show(100);
     signupButton.prop('disabled', false);
-  } else {
-    signup(inputUsername.val(), inputPassword.val(), inputEmail.val(), recaptchaResponse, function (res) {
-      if (res === null) {
-        signupAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на вход.');
+    return;
+  }
+
+  signup(inputUsername.val(), inputPassword.val(), inputEmail.val(), recaptchaResponse, function (res) {
+    if (res === null) {
+      signupAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на вход.');
+      signupAlert.show(100);
+      signupButton.prop('disabled', false);
+    } else {
+      if (res.result === false) {
+        signupAlertText.html('<strong>Ошибка!</strong> ' + res.message);
         signupAlert.show(100);
         signupButton.prop('disabled', false);
-      } else {
-        if (res.result === false) {
-          signupAlertText.html('<strong>Ошибка!</strong> ' + res.message);
-          signupAlert.show(100);
-          signupButton.prop('disabled', false);
-        } else if (res.result === true) {
-          document.location.href = '/';
-        }
+      } else if (res.result === true) {
+        document.location.href = '/';
       }
-    });
-  }
+    }
+  });
 });
