@@ -40,11 +40,33 @@ const vkontakteStrategy = new VKontakteStrategy(
   {
     clientID:     6090728,
     clientSecret: 'yJqWSiFdgBMovrh0y1E5',
-    callbackURL:  "https://bondarevk.tk/auth/vkontakte/callback"
+    callbackURL:  'https://bondarevk.tk/auth/vkontakte/callback'
   },
   function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
-
-    console.log(accessToken, refreshToken, params, profile);
+    User.findOne({ 'vkontakte.id' : profile.id })
+      .then((user) => {
+        if (user) {
+          return done(null, user);
+        } else {
+          const newUser = new User({
+            'username': profile.username,
+            'vkontakte.id': profile.id,
+            'vkontakte.name': profile.displayName,
+            'vkontakte.profileUrl': profile.profileUrl,
+            'vkontakte.email': params.email,
+          });
+          newUser.save()
+            .then((user) => {
+              done(null, user);
+            })
+            .catch((error) => {
+              return done(error);
+            })
+        }
+      })
+      .catch((error) => {
+        return done(error);
+      });
   }
 );
 
