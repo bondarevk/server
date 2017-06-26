@@ -39,5 +39,32 @@ app.use(passport.session());
 
 app.use(routes);
 
+app.use(function(req, res, next) {
+  res.status(404);
+  res.render('error.hbs', { code: 404, message: 'Страница не найдена! :(' });
+});
+
+app.use(logErrors);
+app.use(xhrErrorHandler);
+app.use(errorHandler);
+
+function logErrors(err, req, res, next) {
+  console.error(err.stack);
+  next(err);
+}
+
+function xhrErrorHandler(err, req, res, next) {
+  if (req.xhr) {
+    res.status(500).send({ message: 'Что-то сломалось! :(' });
+  } else {
+    next(err);
+  }
+}
+
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error.hbs', { code: 500, message: 'Что-то сломалось! :(' });
+}
+
 app.listen(port);
-console.log('Port ' + port);
+console.log('Сервер слушает порт: ' + port);
