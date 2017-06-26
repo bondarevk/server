@@ -14,7 +14,7 @@ const MongoStore = require('connect-mongo')(session);
 const routes = require('./app/routes.js');
 const database = require('./config/database.json');
 
-mongoose.connect(database.dbUri, { useMongoClient: true });
+mongoose.connect(database.dbUri);
 mongoose.Promise = Promise;
 require('./app/passport')();
 
