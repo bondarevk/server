@@ -47,7 +47,6 @@ const vkontakteStrategy = new VKontakteStrategy(
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
         if (user) {
-          console.log(req);
           req.logIn(user, function(err) {
             if (err) { return done(err); }
             return done(null, user);

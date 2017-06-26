@@ -58,9 +58,7 @@ router.get('/user/:username', (req, res, next) => {
 router.get('/auth/vkontakte', auth.authenticate('vkontakte'));
 router.get('/auth/vkontakte/callback', auth.authenticate('vkontakte'), (req, res, next) => {
   console.log(req.user);
-  req.logIn(req.user, function () {
-    res.redirect('/');
-  });
+  res.redirect('/');
 });
 
 router.get('/logout', function(req, res) {
