@@ -257,11 +257,14 @@ $('#signupForm').submit(function (event) {
       signupAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на вход.');
       signupAlert.show(100);
       signupButton.prop('disabled', false);
+      grecaptcha.reset();
     } else {
       if (res.result === false) {
         signupAlertText.html('<strong>Ошибка!</strong> ' + res.message);
         signupAlert.show(100);
         signupButton.prop('disabled', false);
+        checkAllInputs(true);
+        grecaptcha.reset();
       } else if (res.result === true) {
         document.location.href = '/';
       }
