@@ -10,7 +10,7 @@ exports.validate = function (req, res, next) {
     method: 'POST',
     json: true,
     form: {
-      secret: '',
+      secret: '6LcB5CYUAAAAAFVRVKQ9-EnmlkxDsjI7WEKD4ESf',
       response: req.body.recaptcha,
       remoteip: req.connection.remoteAddress
     }
