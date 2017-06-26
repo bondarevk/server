@@ -19,7 +19,7 @@ exports.validate = function (req, res, next) {
       return res.json({message: 'Не удалось проверить reCAPTCHA.', message_code: 5, result: false});
     }
     if (body.success === true) {
-      next();
+      return next();
     }
     return res.json({message: 'Не удалось проверить reCAPTCHA.', message_code: 5, result: false});
   });
