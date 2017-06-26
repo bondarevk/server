@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
 const auth = require('../config/auth.json');
 const User = require('./models/user');
@@ -35,6 +36,18 @@ const localStrategy = new LocalStrategy({
     })
 });
 
+const vkontakteStrategy = new VKontakteStrategy(
+  {
+    clientID:     6090728,
+    clientSecret: 'yJqWSiFdgBMovrh0y1E5',
+    callbackURL:  "http://localhost:8080/auth/vkontakte/callback"
+  },
+  function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
+
+    console.log(accessToken, refreshToken, params, profile);
+  }
+);
+
 module.exports = () => {
 
   passport.serializeUser((user, done) => {
@@ -52,4 +65,5 @@ module.exports = () => {
   });
 
   passport.use(localStrategy);
+  passport.use(vkontakteStrategy);
 };

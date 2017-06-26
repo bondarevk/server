@@ -55,6 +55,14 @@ router.get('/user/:username', (req, res, next) => {
 /**
  * API
  */
+router.get('/auth/vkontakte', auth.authenticate('vkontakte'));
+router.get('/auth/vkontakte/callback',
+  auth.authenticate('vkontakte', {
+    successRedirect: '/',
+    failureRedirect: '/signin'
+  })
+);
+
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
