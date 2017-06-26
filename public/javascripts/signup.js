@@ -263,8 +263,9 @@ $('#signupForm').submit(function (event) {
         signupAlertText.html('<strong>Ошибка!</strong> ' + res.message);
         signupAlert.show(100);
         signupButton.prop('disabled', false);
-        checkAllInputs(true);
         grecaptcha.reset();
+        if (res.message_code === 3)
+          checkUsernameInput();
       } else if (res.result === true) {
         document.location.href = '/';
       }
