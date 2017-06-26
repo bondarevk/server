@@ -1,9 +1,9 @@
 
-function signup(username, password, email, cb) {
+function signup(username, password, email, recaptcha, cb) {
   $.ajax({
     type: 'POST',
     url: '/signup',
-    data: { username, password, email }
+    data: { username, password, email, recaptcha }
   })
     .done(function (res) {
       return cb(res);

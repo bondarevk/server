@@ -229,18 +229,28 @@ function checkAllInputs(focus) {
 checkAllInputs();
 
 $('#signupForm').submit(function (event) {
+  event.preventDefault();
   var signupButton = $('#signupButton');
   var signupAlertText = $('#signupAlertText');
   var signupAlert = $('#signupAlert');
 
   signupAlert.hide();
   signupButton.prop('disabled', true);
+
+  var recaptchaResponse = grecaptcha.getResponse();
+  if (!recaptchaResponse) {
+    signupAlertText.html('Пройдите проверку reCaptcha.');
+    signupAlert.show(100);
+    signupButton.prop('disabled', false);
+    return;
+  }
+
   if (!checkAllInputs(true)) {
     signupAlertText.html('Заполните все поля.');
     signupAlert.show(100);
     signupButton.prop('disabled', false);
   } else {
-    signup(inputUsername.val(), inputPassword.val(), inputEmail.val(), function (res) {
+    signup(inputUsername.val(), inputPassword.val(), inputEmail.val(), recaptchaResponse, function (res) {
       if (res === null) {
         signupAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на вход.');
         signupAlert.show(100);
@@ -256,6 +266,4 @@ $('#signupForm').submit(function (event) {
       }
     });
   }
-
-  event.preventDefault();
 });
