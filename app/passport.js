@@ -40,7 +40,7 @@ const vkontakteStrategy = new VKontakteStrategy(
   {
     clientID:     6090728,
     clientSecret: 'yJqWSiFdgBMovrh0y1E5',
-    callbackURL:  "http://localhost:8080/auth/vkontakte/callback"
+    callbackURL:  "https://bondarevk.tk/auth/vkontakte/callback"
   },
   function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
 
