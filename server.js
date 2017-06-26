@@ -41,7 +41,11 @@ app.use(routes);
 
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('error.hbs', { code: 404, message: 'Страница не найдена! :(' });
+  res.render('error.hbs', {
+    title: 'Страница не найдена! :(',
+    code: 404,
+    message: 'Страница не найдена! :('
+  });
 });
 
 app.use(logErrors);
@@ -63,7 +67,11 @@ function xhrErrorHandler(err, req, res, next) {
 
 function errorHandler(err, req, res, next) {
   res.status(500);
-  res.render('error.hbs', { code: 500, message: 'Что-то сломалось! :(' });
+  res.render('error.hbs', {
+    title: 'Что-то сломалось! :(',
+    code: 500,
+    message: 'Что-то сломалось! :('
+  });
 }
 
 app.listen(port);

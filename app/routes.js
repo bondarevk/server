@@ -1,6 +1,8 @@
 const express = require('express');
 const passport = require('passport');
+const moment = require('moment');
 
+const User = require('./models/user');
 const reCaptcha = require('./recaptcha');
 const auth = require('./auth');
 
@@ -26,6 +28,28 @@ router.get('/signup', (req, res) => {
     title: 'Регистрация',
     user: req.user
   });
+});
+router.get('/user/:username', (req, res, next) => {
+  User.findOne({ username: req.params.username }, null, {collation: {locale: 'en', strength: 2}})
+    .then((user) => {
+      if (user) {
+        const regDate = new Date(user.createdAt);
+        res.render('user.hbs', {
+          title: 'Пользователь ' + (user ? user.username: 'не найден'),
+          user: user,
+          regDate: moment(regDate).format('DD.MM.YYYY HH:MM')
+        });
+      } else {
+        res.render('user.hbs', {
+          title: 'Пользователь не найден',
+          user: null
+        });
+      }
+
+    })
+    .catch((error) => {
+      return next(error);
+    })
 });
 
 /**
