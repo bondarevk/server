@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require('passport');
 
+const reCaptcha = require('./recaptcha');
 const auth = require('./auth');
 
 const router = express.Router();
@@ -38,7 +39,7 @@ router.post('/check-username', auth.checkUsername);
 router.post('/signin', auth.authenticate('local'), (req, res, next) => {
   res.json({ result: true });
 });
-router.post('/signup', auth.signup);
+router.post('/signup', reCaptcha.validate, auth.signup);
 router.get('/test', auth.requireSignin, (req, res, next) => {
   res.json({ result: 'done' });
 });
