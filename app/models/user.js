@@ -37,9 +37,9 @@ const UserSchema = mongoose.Schema({
     },
     vkontakte: {
       id: String,
-      token: String,
       email: String,
-      name: String
+      name: String,
+      profileUrl: String
     }
   },
   {
