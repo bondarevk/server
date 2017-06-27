@@ -118,6 +118,9 @@ router.get('/auth-connect', authhelper.requireAnon, (req, res, next) => {
     if (authConnect.vkontakte) {
       header = authConnect.vkontakte.name;
       icon = '/images/vk.png';
+    } else if (authConnect.google) {
+      header = authConnect.google.name;
+      icon = '/images/google.png';
     } else {
       return res.redirect('/');
     }
