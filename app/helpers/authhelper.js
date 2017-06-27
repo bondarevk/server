@@ -33,6 +33,16 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
       return next(error);
     }
     if (!user) {
+      console.log('No user');
+      console.log(req.user);
+      console.log(req.isAuthenticated());
+      console.log(info);
+
+      if (req.isAuthenticated()) {
+
+
+        return res.redirect('/profile');
+      }
       req.session.authConnect = info;
       res.redirect('/auth-connect');
     } else {
@@ -44,6 +54,16 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
       });
     }
   })(req, res, next);
+};
+
+/**
+ * Только для НЕ аутентифицированных пользователей
+ */
+exports.requireAnon = (req, res, next) => {
+  if (!req.isAuthenticated())
+    return next();
+
+  res.redirect('/');
 };
 
 /**
