@@ -86,15 +86,24 @@ router.post('/signin', authhelper.authenticate('local'), (req, res) => {
 router.post('/check-username', checkusernameController);
 
 /**
- * Завершене привязки аккаунта
+ * Завершение регистрации аккаунта (oauth)
  */
 router.get('/auth-connect', (req, res, next) => {
-  if (!req.session.authConnect) {
+  const authConnect = req.session.authConnect;
+  if (!authConnect) {
     res.redirect('/');
   } else {
+    let header = '';
+    let icon = '';
+    if (authConnect.vkontakte) {
+      header = authConnect.vkontakte.name;
+    } else {
+      return res.redirect('/');
+    }
     res.render('authconnect.hbs', {
-      title: 'Привязка аккаунта',
-      authConnect: req.session.authConnect
+      title: 'Завершение регистрации аккаунта',
+      header: header,
+      icon: icon
     })
   }
 });

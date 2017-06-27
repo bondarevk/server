@@ -34,6 +34,8 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     }
     if (!user) {
 
+
+      console.log(req.user);
       console.log('vk set session');
       req.session.authConnect = info;
       res.redirect('/auth-connect');

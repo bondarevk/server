@@ -1,1 +1,16 @@
-Приязка: {{authConnect}}
+<form id="connectForm" class="form-connect">
+  <img src="{{icon}}">
+  <h5>{{header}}</h5>
+  <small class="text-muted">Придумайте себе ник</small>
+
+  <label for="inputUsername" class="sr-only">Имя пользователя</label>
+  <input type="text" id="inputUsername" class="form-control" placeholder="Имя пользователя" data-toggle="popover" data-trigger="focus">
+
+  <button id="connectButton" class="btn btn-lg btn-primary btn-block" type="submit">Создать аккаунт</button>
+
+  <div class="alert alert-warning fade show" id="connectAlert" role="alert">
+    <span id="connectAlertText"></span>
+  </div>
+</form>
+
+<script src="/javascripts/auth-connect.js"></script>
