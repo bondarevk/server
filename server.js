@@ -71,7 +71,8 @@ function errorHandler(err, req, res, next) {
   res.render('error', {
     title: 'Что-то сломалось! :(' + config.title,
     code: 500,
-    message: 'Что-то сломалось! :('
+    message: 'Что-то сломалось! :(',
+    user: req.user
   });
 }
 
