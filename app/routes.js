@@ -77,6 +77,14 @@ router.get('/auth/vkontakte/callback', authhelper.oauthCallbackAuthenticate('vko
 });
 
 /**
+ * Google Auth
+ */
+router.get('/auth/google', authhelper.authenticate('google', { scope : ['profile', 'email'] }));
+router.get('/auth/google/callback', authhelper.oauthCallbackAuthenticate('google'), (req, res) => {
+  res.redirect('/');
+});
+
+/**
  * Local Auth
  */
 router.post('/signup', authhelper.requireAnon, reCaptcha.validate, signupController);

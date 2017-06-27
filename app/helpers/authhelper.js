@@ -39,6 +39,8 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
         let user = req.user;
         if (info.vkontakte) {
           user.vkontakte = info.vkontakte;
+        } else if (info.google) {
+          console.log(info.google);
         }
         user.save()
           .then((user) => {
@@ -58,6 +60,8 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
         let message = '';
         if (info.vkontakte) {
           message = `Аккаунт ВКонтакте "${info.vkontakte.name}" уже используется для авторизации на сайте.`;
+        } else if (info.google) {
+          message = `Аккаунт Google "${info.google.name}" уже используется для авторизации на сайте.`;
         }
         return res.render('error', {
           title: 'Ошибка' + config.title,
