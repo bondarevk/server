@@ -29,6 +29,19 @@
   margin: 0 auto;
 }
 
+.form-connect header {
+  margin-top: .4rem;
+}
+
+.form-signup input[type="text"] {
+  margin-bottom: 8px;
+}
+
+.form-connect #connectAlert {
+  display: none;
+  margin-top: 10px;
+}
+
 /*
   Signup Form
  */

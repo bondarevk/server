@@ -1,10 +1,14 @@
 <form id="connectForm" class="form-connect">
-  <img src="{{icon}}">
-  <h5>{{header}}</h5>
-  <small class="text-muted">Придумайте себе ник</small>
 
-  <label for="inputUsername" class="sr-only">Имя пользователя</label>
-  <input type="text" id="inputUsername" class="form-control" placeholder="Имя пользователя" data-toggle="popover" data-trigger="focus">
+  <div class="media">
+    <img class="d-flex align-self-center mr-2" src="{{icon}}" alt="Icon" width="32" height="32">
+    <div class="media-body">
+      <h5 class="media-header">{{header}}</h5>
+    </div>
+  </div>
+
+  <label for="inputUsername" class="sr-only">Придумайте себе ник</label>
+  <input type="text" id="inputUsername" class="form-control" placeholder="Придумайте себе ник" data-toggle="popover" data-trigger="focus">
 
   <button id="connectButton" class="btn btn-lg btn-primary btn-block" type="submit">Создать аккаунт</button>
 
