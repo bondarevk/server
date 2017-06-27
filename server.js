@@ -41,7 +41,7 @@ app.use(routes);
 
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('error.hbs', {
+  res.render('error', {
     title: 'Страница не найдена! :(',
     code: 404,
     message: 'Страница не найдена! :('
@@ -67,7 +67,7 @@ function xhrErrorHandler(err, req, res, next) {
 
 function errorHandler(err, req, res, next) {
   res.status(500);
-  res.render('error.hbs', {
+  res.render('error', {
     title: 'Что-то сломалось! :(',
     code: 500,
     message: 'Что-то сломалось! :('

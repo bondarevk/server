@@ -16,7 +16,7 @@ const router = express.Router();
  * Главная страница
  */
 router.get('/', (req, res) => {
-  res.render('index.hbs', {
+  res.render('index', {
     title: 'bondarevk',
     user: req.user
   })
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
  * Форма аутентификации
  */
 router.get('/signin', (req, res) => {
-  res.render('signin.hbs', {
+  res.render('signin', {
     title: 'Вход',
     user: req.user
   })
@@ -36,7 +36,7 @@ router.get('/signin', (req, res) => {
  * Форма регистрации
  */
 router.get('/signup', (req, res) => {
-  res.render('signup.hbs', {
+  res.render('signup', {
     title: 'Регистрация',
     user: req.user
   })
@@ -50,13 +50,13 @@ router.get('/user/:username', (req, res, next) => {
     .then((user) => {
       if (user) {
         const regDate = new Date(user.createdAt);
-        res.render('user.hbs', {
+        res.render('user', {
           title: `Пользователь ${user.username}`,
           user: user,
           regDate: moment(regDate).format('DD.MM.YYYY HH:MM')
         });
       } else {
-        res.render('user.hbs', {
+        res.render('user', {
           title: 'Пользователь не найден',
           user: null
         });
@@ -102,7 +102,7 @@ router.get('/auth-connect', (req, res, next) => {
     } else {
       return res.redirect('/');
     }
-    res.render('authconnect.hbs', {
+    res.render('authconnect', {
       title: 'Завершение регистрации аккаунта',
       header: header,
       icon: icon
