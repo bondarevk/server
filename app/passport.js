@@ -70,7 +70,6 @@ const googleStrategy = new GoogleStrategy({
       });
     })
     .catch((error) => {
-      console.log(error);
       return done(error);
     })
 });

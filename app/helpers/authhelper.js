@@ -31,6 +31,7 @@ exports.authenticate = (name, options) => (req, res, next) => {
 exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
   passport.authenticate(name, options, (error, user, info) => {
     if (error) {
+      console.log(error);
       return next(error);
     }
     if (!user) {
