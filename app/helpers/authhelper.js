@@ -54,9 +54,13 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     } else {
 
       if (req.isAuthenticated()) {
+        let message = '';
+        if (info.vkontakte) {
+          message = `Аккаунт ВКонтакте "${info.vkontakte.name}" уже используется для авторизации на сайте.`;
+        }
         return res.render('error', {
           title: 'Ошибка' + config.title,
-          message: 'Этот аккаунт уже используется для авторизации на этом сайте.'
+          message: message
         });
       }
       req.logIn(user, function(err) {
