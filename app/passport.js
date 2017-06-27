@@ -42,8 +42,10 @@ const vkontakteStrategy = new VKontakteStrategy(
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
         if (user) {
+          console.log('vk found user');
           return done(null, user);
         } else {
+          console.log('vk not found user');
           return done(null, null, {
             'vkontakte.id': profile.id,
             'vkontakte.name': profile.displayName,

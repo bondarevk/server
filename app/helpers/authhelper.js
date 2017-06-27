@@ -34,6 +34,7 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     }
     if (user === null) {
 
+      console.log('vk set session');
       req.session.authConnect = info;
       res.redirect('/auth-connect');
       // Register
@@ -41,6 +42,7 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
 
 
     } else {
+      console.log('vk login');
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
