@@ -122,7 +122,7 @@ $('#connectForm').submit(function (event) {
       }
     })
     .fail(function () {
-      connectAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на создание аккаунта.');
+      connectAlertText.html('<strong>Ошибка!</strong> Не удалось обработать запрос на создание аккаунта.');
       connectAlert.show(100);
       connectButton.prop('disabled', false);
     });

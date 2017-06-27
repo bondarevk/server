@@ -252,7 +252,7 @@ $('#signupForm').submit(function (event) {
 
   signup(inputUsername.val(), inputPassword.val(), inputEmail.val(), recaptchaResponse, function (res) {
     if (res === null) {
-      signupAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на вход.');
+      signupAlertText.html('<strong>Ошибка!</strong> Не удалось обработать запрос на создание аккаунта.');
       signupAlert.show(100);
       signupButton.prop('disabled', false);
       grecaptcha.reset();

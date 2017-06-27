@@ -1,4 +1,5 @@
 const dbhelper = require('../helpers/dbhelper');
+const User = require('../models/user');
 
 /**
  * Регистрация
