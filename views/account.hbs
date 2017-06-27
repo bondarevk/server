@@ -1,0 +1,49 @@
+{{#ifor user.google.id user.vkontakte.id}}
+  <h4>Привязанные аккаунты:</h4>
+{{/ifor}}
+
+{{#if user.google.id}}
+  <div class="user-info-account mb-2">
+    <h5>Google</h5>
+    <div class="form-group row ml-1">
+      <label class="col-sm-2 col-form-label">Имя</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{user.google.name}}</p>
+      </div>
+      <label class="col-sm-2 col-form-label">Почта</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">
+          {{#each user.google.emails}}
+            {{value}}
+          {{/each}}
+        </p>
+      </div>
+    </div>
+  </div>
+{{/if}}
+{{#if user.vkontakte.id}}
+  <div class="user-info-account mb-2">
+    <h5>Вконтакте</h5>
+    <div class="form-group row ml-1">
+      <label class="col-sm-2 col-form-label">Имя</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{user.vkontakte.name}}</p>
+      </div>
+      <label class="col-sm-2 col-form-label">Почта</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{user.vkontakte.email}}</p>
+      </div>
+      <label class="col-sm-2 col-form-label">Страница</label>
+      <div class="col-sm-10">
+        <p class="form-control-static"><a href="{{user.vkontakte.profileUrl}}"></a>{{user.vkontakte.profileUrl}}</p>
+      </div>
+    </div>
+  </div>
+{{/if}}
+
+{{#ifnot user.vkontakte.id}}
+  <a class="btn btn-outline-primary" href="/auth/vkontakte" role="button">Привязать аккаунт Вконтакте</a>
+{{/ifnot}}
+{{#ifnot user.google.id}}
+  <a class="btn btn-outline-primary" href="/auth/google" role="button">Привязать аккаунт Google</a>
+{{/ifnot}}

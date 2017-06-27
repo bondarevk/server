@@ -44,7 +44,7 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
         }
         user.save()
           .then((user) => {
-            res.redirect('/profile');
+            res.redirect('/account');
           })
           .catch((error) => {
             return next(error);

@@ -42,6 +42,17 @@ router.get('/signup', authhelper.requireAnon, (req, res) => {
 });
 
 /**
+ * Личный кабинет
+ */
+router.get('/account', authhelper.requireSignin, (req, res) => {
+  console.log(req.user.vkontakte);
+  res.render('account', {
+    title: 'Личный кабинет' + config.title,
+    user: req.user
+  })
+});
+
+/**
  * Профиль пользователя
  */
 router.get('/user/:username', (req, res, next) => {

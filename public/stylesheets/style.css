@@ -7,6 +7,16 @@
 }
 
 /*
+  Account
+ */
+
+.user-info-account {
+  padding: 1rem 1.5rem 1px 1.5rem;
+  background-color: #f7f7f9;
+}
+
+
+/*
   User
  */
 

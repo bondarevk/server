@@ -5,6 +5,7 @@ const config = require('./config/main.json');
 const port = config.port;
 const mongoose = require('mongoose');
 const passport = require('passport');
+const hbs = require('hbs');
 
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
@@ -37,6 +38,20 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+hbs.registerHelper('ifor', function(v1, v2, options) {
+  if(v1 || v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+hbs.registerHelper('ifnot', function(v1, options) {
+  if(!v1) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
 
 app.use(routes);
 
