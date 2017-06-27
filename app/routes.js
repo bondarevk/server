@@ -131,6 +131,8 @@ router.post('/auth-connect', (req, res, next) => {
           });
         })
         .catch((error) => {
+          console.log('tut?');
+          console.log(error.name);
           if (error.name === 'ValidationError') {
             if (Object.values(error.errors).length > 0) {
               return res.json({message: Object.values(error.errors)[0].message, message_code: 4, result: false});
