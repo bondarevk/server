@@ -111,7 +111,8 @@ router.get('/auth-connect', (req, res, next) => {
 });
 router.post('/auth-connect', (req, res, next) => {
   const username = req.body.username;
-  if (!username) {
+  const authConnect = req.session.authConnect;
+  if (!username || !authConnect) {
     return res.json({message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false});
   }
 
@@ -121,7 +122,7 @@ router.post('/auth-connect', (req, res, next) => {
         return res.json({message: 'Этот логин занят.', message_code: 3, result: false});
       }
 
-      const newUser = new User(Object.assign({username}, req.session.authConnect));
+      const newUser = new User(Object.assign({username}, authConnect));
       newUser.save()
         .then((user) => {
           req.logIn(user, function () {
