@@ -110,7 +110,38 @@ router.get('/auth-connect', (req, res, next) => {
   }
 });
 router.post('/auth-connect', (req, res, next) => {
-  res.json({ message: 'Тест.', message_code: 1, result: false })
+  const username = req.body.username;
+  if (!username) {
+    return res.json({message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false});
+  }
+
+  dbhelper.findUser(username)
+    .then((user) => {
+      if (user) {
+        return res.json({message: 'Этот логин занят.', message_code: 3, result: false});
+      }
+
+      const newUser = new User(Object.assign({username}, req.session.authConnect));
+      newUser.save()
+        .then((user) => {
+          req.logIn(user, function () {
+            delete res.session.authConnect;
+            res.json({message: '', message_code: 1, result: true});
+          });
+        })
+        .catch((error) => {
+          if (error.name === 'ValidationError') {
+            if (Object.values(error.errors).length > 0) {
+              return res.json({message: Object.values(error.errors)[0].message, message_code: 4, result: false});
+            }
+            return res.json({message: error.message, message_code: 4, result: false});
+          }
+          return next(error);
+        })
+    })
+    .catch((error) => {
+      return next(error);
+    })
 });
 
 /**
