@@ -19,6 +19,7 @@ const UserSchema = mongoose.Schema({
     local: {
       email: {
         type: String,
+        unique: true,
         match: [/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'Неверный email. Проверьте правильность указанного адреса.']
       },
       password: {
@@ -33,8 +34,7 @@ const UserSchema = mongoose.Schema({
     },
     vkontakte: {
       id: {
-        type: String,
-        unique: true
+        type: String
       },
       name: String,
       profileUrl: String,
