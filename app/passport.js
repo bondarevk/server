@@ -48,8 +48,6 @@ const vkontakteStrategy = new VKontakteStrategy(
             email: params.email
           }
         };
-        console.log(user.save);
-        info.user = user;
         if (user) {
           return done(null, user, info);
         } else {

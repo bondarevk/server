@@ -36,10 +36,11 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     if (!user) {
 
       if (req.isAuthenticated()) {
+        let user = req.user;
         if (info.vkontakte) {
-          info.user.vkontakte = info.vkontakte;
+          user.vkontakte = info.vkontakte;
         }
-        info.user.save()
+        user.save()
           .then((user) => {
             res.redirect('/profile');
           })
