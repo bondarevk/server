@@ -98,6 +98,7 @@ router.get('/auth-connect', (req, res, next) => {
     console.log(authConnect);
     if (authConnect.vkontakte) {
       header = authConnect.vkontakte.name;
+      icon = '/images/vk.png';
     } else {
       return res.redirect('/');
     }
