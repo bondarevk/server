@@ -4,38 +4,54 @@ const moment = require('moment');
 
 const User = require('./models/user');
 const reCaptcha = require('./recaptcha');
-const auth = require('./auth');
+
+const authhelper = require('./helpers/authhelper');
+const dbhelper = require('./helpers/dbhelper');
+const signupController = require('./controllers/signup');
+const checkusernameController = require('./controllers/checkusername');
 
 const router = express.Router();
 
 /**
- * Views
+ * Главная страница
  */
 router.get('/', (req, res) => {
   res.render('index.hbs', {
     title: 'bondarevk',
     user: req.user
-  });
+  })
 });
+
+/**
+ * Форма аутентификации
+ */
 router.get('/signin', (req, res) => {
   res.render('signin.hbs', {
     title: 'Вход',
     user: req.user
-  });
+  })
 });
+
+/**
+ * Форма регистрации
+ */
 router.get('/signup', (req, res) => {
   res.render('signup.hbs', {
     title: 'Регистрация',
     user: req.user
-  });
+  })
 });
+
+/**
+ * Профиль пользователя
+ */
 router.get('/user/:username', (req, res, next) => {
-  User.findOne({ username: req.params.username }, null, {collation: {locale: 'en', strength: 2}})
+  dbhelper.findUser(req.params.username)
     .then((user) => {
       if (user) {
         const regDate = new Date(user.createdAt);
         res.render('user.hbs', {
-          title: 'Пользователь ' + (user ? user.username: 'не найден'),
+          title: `Пользователь ${user.username}`,
           user: user,
           regDate: moment(regDate).format('DD.MM.YYYY HH:MM')
         });
@@ -45,33 +61,36 @@ router.get('/user/:username', (req, res, next) => {
           user: null
         });
       }
-
     })
     .catch((error) => {
-      return next(error);
+      next(error);
     })
 });
 
 /**
- * API
+ * VK Auth
  */
-router.get('/auth/vkontakte', auth.authenticate('vkontakte'));
-router.get('/auth/vkontakte/callback', auth.authenticate('vkontakte'), (req, res, next) => {
+router.get('/auth/vkontakte', authhelper.authenticate('vkontakte'));
+router.get('/auth/vkontakte/callback', authhelper.authenticate('vkontakte'), (req, res, next) => {
   console.log(req.user);
   res.redirect('/');
 });
 
+/**
+ * Local Auth
+ */
+router.post('/signup', reCaptcha.validate, signupController);
+router.post('/signin', authhelper.authenticate('local'), (req, res, next) => {
+  res.json({ result: true });
+});
+router.post('/check-username', checkusernameController);
+
+/**
+ * Выход
+ */
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
-});
-router.post('/check-username', auth.checkUsername);
-router.post('/signin', auth.authenticate('local'), (req, res, next) => {
-  res.json({ result: true });
-});
-router.post('/signup', reCaptcha.validate, auth.signup);
-router.get('/test', auth.requireSignin, (req, res, next) => {
-  res.json({ result: 'done' });
 });
 
 module.exports = router;

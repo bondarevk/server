@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
 const auth = require('../config/auth.json');
+const dbhelper = require('./helpers/dbhelper');
 const User = require('./models/user');
 
 const localStrategy = new LocalStrategy({
@@ -10,12 +11,11 @@ const localStrategy = new LocalStrategy({
   passwordField : 'password',
   passReqToCallback : true
 }, (req, username, password, done) => {
-  User.findOne({username}, null, {collation: {locale: 'en', strength: 2}})
+  dbhelper.findUser(username)
     .then((user) => {
       if (!user) {
         return done(null, false, { message: 'Неверный логин.', message_code: 2, result: false });
       }
-
       user.compareLocalPassword(password, (error, result) => {
         if (error) {
           return done(error);
@@ -27,9 +27,7 @@ const localStrategy = new LocalStrategy({
           if (err) { return next(err); }
           return done(null, user);
         });
-
       });
-
     })
     .catch((error) => {
       return done(error);
@@ -75,7 +73,6 @@ const vkontakteStrategy = new VKontakteStrategy(
 );
 
 module.exports = () => {
-
   passport.serializeUser((user, done) => {
     done(null, user.id);
   });

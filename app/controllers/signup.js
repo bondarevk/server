@@ -1,7 +1,9 @@
-const passport = require('passport');
-const User = require('./models/user');
+const dbhelper = require('../helpers/dbhelper');
 
-exports.signup = (req, res, next) => {
+/**
+ * Регистрация
+ */
+module.exports = (req, res, next) => {
   if (!req.body.username || !req.body.password || !req.body.email) {
     return res.json({message: 'Отсутствуют обязательные параметры.', message_code: 2, result: false});
   }
@@ -10,7 +12,7 @@ exports.signup = (req, res, next) => {
   const password = req.body.password;
   const email = req.body.email.trim();
 
-  User.findOne({username}, null, {collation: {locale: 'en', strength: 2}})
+  dbhelper.findUser(username)
     .then((user) => {
 
       if (user) {
@@ -52,54 +54,4 @@ exports.signup = (req, res, next) => {
     .catch((error) => {
       return next(error);
     })
-};
-
-exports.checkUsername = (req, res, next) => {
-  const username = req.body.username;
-  if (!username) {
-    return res.json({result: false});
-  }
-
-  User.findOne({username}, null, {collation: {locale: 'en', strength: 2}})
-    .then((existingUser) => {
-      if (existingUser) {
-        return res.json({result: false});
-      } else {
-        return res.json({result: true});
-      }
-    })
-    .catch((error) => {
-      return next(error);
-    })
-};
-
-exports.requireSignin = (req, res, next) => {
-  if (req.isAuthenticated())
-    return next();
-
-  res.redirect('/signin');
-};
-
-exports.authenticate = (name, options) => (req, res, next) => {
-  passport.authenticate(name, options, (error, user, info) => {
-    if (error) {
-      return next(error);
-    }
-    if (!user) {
-      if (info.result === undefined) {
-        info.result = false;
-      }
-      return res.json(info);
-    }
-    return next();
-  })(req, res, next);
-};
-
-exports.roleAuthorization = function (requiredRole) {
-  return function (req, res, next) {
-    if (req.user.role >= requiredRole) {
-      return next();
-    }
-    return res.status(403).json({error: 'Доступ запрещен.'});
-  }
 };
