@@ -126,12 +126,11 @@ router.post('/auth-connect', (req, res, next) => {
       newUser.save()
         .then((user) => {
           req.logIn(user, function () {
-            delete req.session.authConnect;
+            //delete req.session.authConnect;
             res.json({message: '', message_code: 1, result: true});
           });
         })
         .catch((error) => {
-          console.log(error);
           if (error.name === 'ValidationError') {
             if (Object.values(error.errors).length > 0) {
               return res.json({message: Object.values(error.errors)[0].message, message_code: 4, result: false});
