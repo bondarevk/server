@@ -32,6 +32,7 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     if (error) {
       return next(error);
     }
+    console.log(user);
     if (user === null) {
 
       console.log('vk set session');
