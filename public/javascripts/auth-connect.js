@@ -97,8 +97,11 @@ $('#connectForm').submit(function (event) {
   connectButton.prop('disabled', true);
 
   checkUsernameInput();
-  if ($('.form-control').not('.form-control-success').length > 0) {
+  if (!inputUsername.hasClass('form-control-success')) {
     inputUsername.focus();
+    connectAlertText.html('Заполните имя пользователя.');
+    connectAlert.show(100);
+    connectButton.prop('disabled', false);
     return;
   }
 
