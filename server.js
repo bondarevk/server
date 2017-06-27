@@ -45,7 +45,8 @@ app.use(function(req, res, next) {
   res.render('error', {
     title: 'Страница не найдена! :(' + config.title,
     code: 404,
-    message: 'Страница не найдена! :('
+    message: 'Страница не найдена! :(',
+    user: req.user
   });
 });
 
