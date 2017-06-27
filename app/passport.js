@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const VKontakteStrategy = require('passport-vkontakte').Strategy;
 
-const auth = require('../config/auth.json');
+const authConfig = require('../config/auth.json');
 const dbhelper = require('./helpers/dbhelper');
 const User = require('./models/user');
 
@@ -33,9 +33,9 @@ const localStrategy = new LocalStrategy({
 
 const vkontakteStrategy = new VKontakteStrategy(
   {
-    clientID:     6090728,
-    clientSecret: 'yJqWSiFdgBMovrh0y1E5',
-    callbackURL:  'https://bondarevk.tk/auth/vkontakte/callback'
+    clientID:     authConfig.vkontakte.clientID,
+    clientSecret: authConfig.vkontakte.clientSecret,
+    callbackURL:  authConfig.vkontakte.callbackURL
   },
   function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
     User.findOne({ 'vkontakte.id' : profile.id })

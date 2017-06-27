@@ -1,0 +1,9 @@
+{
+  "port": 8080,
+  "title": " - bondarevk",
+  "sessionSecret": "whoop",
+
+  "reCAPTCHA": {
+    "secret": "6LcB5CYUAAAAAFVRVKQ9-EnmlkxDsjI7WEKD4ESf"
+  }
+}

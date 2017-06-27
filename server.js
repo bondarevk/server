@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 8080;
+const config = require('./config/main.json');
+const port = config.port;
 const mongoose = require('mongoose');
 const passport = require('passport');
 
@@ -28,7 +29,7 @@ app.set('view engine', 'hbs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'whoop',
+  secret: config.sessionSecret,
   resave: true,
   saveUninitialized: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),

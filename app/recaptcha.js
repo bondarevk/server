@@ -1,4 +1,5 @@
 const request = require('request');
+const config = require('../config/main.json');
 
 exports.validate = function (req, res, next) {
   if (!req.body.recaptcha) {
@@ -10,7 +11,7 @@ exports.validate = function (req, res, next) {
     method: 'POST',
     json: true,
     form: {
-      secret: '6LcB5CYUAAAAAFVRVKQ9-EnmlkxDsjI7WEKD4ESf',
+      secret: config.reCAPTCHA.secret,
       response: req.body.recaptcha,
       remoteip: req.connection.remoteAddress
     }

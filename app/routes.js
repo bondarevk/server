@@ -3,12 +3,13 @@ const passport = require('passport');
 const moment = require('moment');
 
 const User = require('./models/user');
+const config = require('../config/main.json');
 const reCaptcha = require('./recaptcha');
-
 const authhelper = require('./helpers/authhelper');
 const dbhelper = require('./helpers/dbhelper');
 const signupController = require('./controllers/signup');
 const checkusernameController = require('./controllers/checkusername');
+
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ const router = express.Router();
  */
 router.get('/', (req, res) => {
   res.render('index', {
-    title: 'bondarevk',
+    title: 'Главная' + config.title,
     user: req.user
   })
 });
@@ -27,7 +28,7 @@ router.get('/', (req, res) => {
  */
 router.get('/signin', (req, res) => {
   res.render('signin', {
-    title: 'Вход',
+    title: 'Вход' + config.title,
     user: req.user
   })
 });
@@ -37,7 +38,7 @@ router.get('/signin', (req, res) => {
  */
 router.get('/signup', (req, res) => {
   res.render('signup', {
-    title: 'Регистрация',
+    title: 'Регистрация' + config.title,
     user: req.user
   })
 });
@@ -51,13 +52,13 @@ router.get('/user/:username', (req, res, next) => {
       if (user) {
         const regDate = new Date(user.createdAt);
         res.render('user', {
-          title: `Пользователь ${user.username}`,
+          title: `Пользователь ${user.username}` + config.title,
           user: user,
           regDate: moment(regDate).format('DD.MM.YYYY HH:MM')
         });
       } else {
         res.render('user', {
-          title: 'Пользователь не найден',
+          title: 'Пользователь не найден' + config.title,
           user: null
         });
       }
@@ -103,7 +104,7 @@ router.get('/auth-connect', (req, res, next) => {
       return res.redirect('/');
     }
     res.render('authconnect', {
-      title: 'Завершение регистрации аккаунта',
+      title: 'Завершение регистрации аккаунта' + config.title,
       header: header,
       icon: icon
     })

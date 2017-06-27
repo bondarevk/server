@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const roles = require('../../config/roles');
+const roles = require('../../config/roles.json');
 const ValidationError = mongoose.Error.ValidationError;
 
 const UserSchema = mongoose.Schema({
