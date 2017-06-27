@@ -90,4 +90,5 @@ module.exports = () => {
 
   passport.use(localStrategy);
   passport.use(vkontakteStrategy);
+  passport.use(googleStrategy);
 };
