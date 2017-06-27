@@ -1,4 +1,5 @@
 const passport = require('passport');
+const config = require('../../config/main.json');
 
 /**
  * Оболочка для аутентификации Passport
@@ -33,25 +34,38 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
       return next(error);
     }
     if (!user) {
-      console.log('No user');
-      console.log(req.user);
-      console.log(req.isAuthenticated());
-      console.log(info);
 
       if (req.isAuthenticated()) {
-
-
-        return res.redirect('/profile');
+        if (info.vkontakte) {
+          user.vkontakte = info.vkontakte;
+        }
+        user.save()
+          .then((user) => {
+            res.redirect('/profile');
+          })
+          .catch((error) => {
+            return next(error);
+          });
+        return;
       }
+
       req.session.authConnect = info;
       res.redirect('/auth-connect');
     } else {
+
+      if (req.isAuthenticated()) {
+        return res.render('error', {
+          title: 'Ошибка' + config.title,
+          message: 'Этот аккаунт уже используется для авторизации на этом сайте.'
+        });
+      }
       req.logIn(user, function(err) {
         if (err) {
           return next(err);
         }
         next();
-      });
+      })
+
     }
   })(req, res, next);
 };

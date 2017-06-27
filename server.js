@@ -43,7 +43,7 @@ app.use(routes);
 app.use(function(req, res, next) {
   res.status(404);
   res.render('error', {
-    title: 'Страница не найдена! :(',
+    title: 'Страница не найдена! :(' + config.title,
     code: 404,
     message: 'Страница не найдена! :('
   });
@@ -69,7 +69,7 @@ function xhrErrorHandler(err, req, res, next) {
 function errorHandler(err, req, res, next) {
   res.status(500);
   res.render('error', {
-    title: 'Что-то сломалось! :(',
+    title: 'Что-то сломалось! :(' + config.title,
     code: 500,
     message: 'Что-то сломалось! :('
   });
