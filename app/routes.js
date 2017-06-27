@@ -126,7 +126,7 @@ router.post('/auth-connect', (req, res, next) => {
       newUser.save()
         .then((user) => {
           req.logIn(user, function () {
-            delete res.session.authConnect;
+            delete req.session.authConnect;
             res.json({message: '', message_code: 1, result: true});
           });
         })
