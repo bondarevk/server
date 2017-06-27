@@ -29,9 +29,8 @@ const UserSchema = mongoose.Schema({
     },
     google: {
       id: String,
-      token: String,
-      email: String,
-      name: String
+      name: String,
+      emails: Array,
     },
     vkontakte: {
       id: {

@@ -31,7 +31,6 @@ exports.authenticate = (name, options) => (req, res, next) => {
 exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
   passport.authenticate(name, options, (error, user, info) => {
     if (error) {
-      console.log(error);
       return next(error);
     }
     if (!user) {
@@ -41,7 +40,7 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
         if (info.vkontakte) {
           user.vkontakte = info.vkontakte;
         } else if (info.google) {
-          console.log(info.google);
+          user.google = info.google;
         }
         user.save()
           .then((user) => {
