@@ -14,14 +14,14 @@ const localStrategy = new LocalStrategy({
   dbhelper.findUser(username)
     .then((user) => {
       if (!user) {
-        return done(null, null, { message: 'Неверный логин.', message_code: 2, result: false });
+        return done(null, false, { message: 'Неверный логин.', message_code: 2, result: false });
       }
       user.compareLocalPassword(password, (error, result) => {
         if (error) {
           return done(error);
         }
         if (!result) {
-          return done(null, null, { message: 'Неверный пароль.', message_code: 3, result: false });
+          return done(null, false, { message: 'Неверный пароль.', message_code: 3, result: false });
         }
         return done(null, user);
       });
@@ -42,11 +42,9 @@ const vkontakteStrategy = new VKontakteStrategy(
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
         if (user) {
-          console.log('vk found user');
           return done(null, user);
         } else {
-          console.log('vk not found user');
-          return done(null, null, {
+          return done(null, false, {
             'vkontakte.id': profile.id,
             'vkontakte.name': profile.displayName,
             'vkontakte.profileUrl': profile.profileUrl,
