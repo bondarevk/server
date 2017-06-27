@@ -35,10 +35,9 @@ const vkontakteStrategy = new VKontakteStrategy(
   {
     clientID:     6090728,
     clientSecret: 'yJqWSiFdgBMovrh0y1E5',
-    callbackURL:  'https://bondarevk.tk/auth/vkontakte/callback',
-    passReqToCallback : true
+    callbackURL:  'https://bondarevk.tk/auth/vkontakte/callback'
   },
-  function myVerifyCallbackFn(req, accessToken, refreshToken, params, profile, done) {
+  function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
         if (user) {
