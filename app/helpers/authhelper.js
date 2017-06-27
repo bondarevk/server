@@ -14,9 +14,13 @@ exports.authenticate = (name, options) => (req, res, next) => {
       }
       return res.json(info);
     } else {
-      // TODO: Login
+      req.logIn(user, function(err) {
+        if (err) {
+          return next(err);
+        }
+        next();
+      });
     }
-    next();
   })(req, res, next);
 };
 

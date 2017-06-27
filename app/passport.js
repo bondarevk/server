@@ -23,10 +23,7 @@ const localStrategy = new LocalStrategy({
         if (!result) {
           return done(null, false, { message: 'Неверный пароль.', message_code: 3, result: false });
         }
-        req.logIn(user, function(err) {
-          if (err) { return next(err); }
-          return done(null, user);
-        });
+        return done(null, user);
       });
     })
     .catch((error) => {
@@ -45,10 +42,7 @@ const vkontakteStrategy = new VKontakteStrategy(
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
         if (user) {
-          req.logIn(user, function(err) {
-            if (err) { return done(err); }
-            return done(null, user);
-          });
+          return done(null, user);
         } else {
           const newUser = new User({
             'username': profile.username,
