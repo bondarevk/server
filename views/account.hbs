@@ -1,9 +1,29 @@
+<h3>Личный кабинет</h3>
+<div class="user-info-account">
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Имя пользователя</label>
+    <div class="col-sm-10">
+      <p class="form-control-static">{{user.username}}</p>
+    </div>
+    {{#if user.local.email}}
+      <label class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <p class="form-control-static">{{user.local.email}}</p>
+      </div>
+    {{/if}}
+    <label class="col-sm-2 col-form-label">Дата регистрации</label>
+    <div class="col-sm-10">
+      <p class="form-control-static">{{regDate}}</p>
+    </div>
+  </div>
+</div>
+
 {{#ifor user.google.id user.vkontakte.id}}
   <h4>Привязанные аккаунты:</h4>
 {{/ifor}}
 
 {{#if user.google.id}}
-  <div class="user-info-account mb-2">
+  <div class="user-info-connect">
     <h5>Google</h5>
     <div class="form-group row ml-1">
       <label class="col-sm-2 col-form-label">Имя</label>
@@ -22,7 +42,7 @@
   </div>
 {{/if}}
 {{#if user.vkontakte.id}}
-  <div class="user-info-account mb-2">
+  <div class="user-info-connect">
     <h5>Вконтакте</h5>
     <div class="form-group row ml-1">
       <label class="col-sm-2 col-form-label">Имя</label>
@@ -42,8 +62,8 @@
 {{/if}}
 
 {{#ifnot user.vkontakte.id}}
-  <a class="btn btn-outline-primary" href="/auth/vkontakte" role="button">Привязать аккаунт Вконтакте</a>
+  <a class="btn btn-outline-primary mt-1" href="/auth/vkontakte" role="button">Привязать аккаунт Вконтакте</a>
 {{/ifnot}}
 {{#ifnot user.google.id}}
-  <a class="btn btn-outline-primary" href="/auth/google" role="button">Привязать аккаунт Google</a>
+  <a class="btn btn-outline-primary mt-1" href="/auth/google" role="button">Привязать аккаунт Google</a>
 {{/ifnot}}

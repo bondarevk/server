@@ -45,9 +45,10 @@ router.get('/signup', authhelper.requireAnon, (req, res) => {
  * Личный кабинет
  */
 router.get('/account', authhelper.requireSignin, (req, res) => {
-  console.log(req.user.vkontakte);
+  const regDate = new Date(req.user.createdAt);
   res.render('account', {
     title: 'Личный кабинет' + config.title,
+    regDate: moment(regDate).format('DD.MM.YYYY HH:MM'),
     user: req.user
   })
 });
