@@ -58,6 +58,7 @@ const googleStrategy = new GoogleStrategy({
   clientSecret: authConfig.google.clientSecret,
   callbackURL: authConfig.google.callbackURL,
 }, (token, refreshToken, profile, done) => {
+  console.log(profile);
   User.findOne({'google.id': profile.id})
     .then((user) => {
       return done(null, user, {
@@ -69,6 +70,7 @@ const googleStrategy = new GoogleStrategy({
       });
     })
     .catch((error) => {
+      console.log(error);
       return done(error);
     })
 });
