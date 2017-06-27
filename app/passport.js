@@ -45,10 +45,12 @@ const vkontakteStrategy = new VKontakteStrategy(
           return done(null, user);
         } else {
           return done(null, false, {
-            'vkontakte.id': profile.id,
-            'vkontakte.name': profile.displayName,
-            'vkontakte.profileUrl': profile.profileUrl,
-            'vkontakte.email': params.email
+            vkontakte: {
+              id: profile.id,
+              name: profile.displayName,
+              profileUrl: profile.profileUrl,
+              email: params.email
+            }
           });
           // const newUser = new User({
           //   'username': profile.username,

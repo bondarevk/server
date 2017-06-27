@@ -95,6 +95,7 @@ router.get('/auth-connect', (req, res, next) => {
   } else {
     let header = '';
     let icon = '';
+    console.log(authConnect);
     if (authConnect.vkontakte) {
       header = authConnect.vkontakte.name;
     } else {
