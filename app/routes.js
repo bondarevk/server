@@ -73,7 +73,6 @@ router.get('/user/:username', (req, res, next) => {
  */
 router.get('/auth/vkontakte', authhelper.authenticate('vkontakte', { scope: ['email'] }));
 router.get('/auth/vkontakte/callback', authhelper.oauthCallbackAuthenticate('vkontakte'), (req, res) => {
-  console.log(req.user);
   res.redirect('/');
 });
 
@@ -96,7 +95,6 @@ router.get('/auth-connect', authhelper.requireAnon, (req, res, next) => {
   } else {
     let header = '';
     let icon = '';
-    console.log(authConnect);
     if (authConnect.vkontakte) {
       header = authConnect.vkontakte.name;
       icon = '/images/vk.png';

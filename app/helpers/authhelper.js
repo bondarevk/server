@@ -55,7 +55,6 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
     } else {
 
       if (req.isAuthenticated()) {
-        console.log(info.vkontakte.name);
         let message = '';
         if (info.vkontakte) {
           message = `Аккаунт ВКонтакте "${info.vkontakte.name}" уже используется для авторизации на сайте.`;
