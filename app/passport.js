@@ -40,17 +40,18 @@ const vkontakteStrategy = new VKontakteStrategy(
   function myVerifyCallbackFn(accessToken, refreshToken, params, profile, done) {
     User.findOne({ 'vkontakte.id' : profile.id })
       .then((user) => {
+        const info = {
+          vkontakte: {
+            id: profile.id,
+            name: profile.displayName,
+            profileUrl: profile.profileUrl,
+            email: params.email
+          }
+        };
         if (user) {
-          return done(null, user);
+          return done(null, user, info);
         } else {
-          return done(null, false, {
-            vkontakte: {
-              id: profile.id,
-              name: profile.displayName,
-              profileUrl: profile.profileUrl,
-              email: params.email
-            }
-          });
+          return done(null, false, info);
         }
       })
       .catch((error) => {

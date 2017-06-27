@@ -1,13 +1,13 @@
-{{#if user}}
+{{#if suser}}
   <div class="user-header">
-    <h1 class="display-4">{{user.username}}</h1>
+    <h1 class="display-4">{{suser.username}}</h1>
   </div>
   <div class="user-info">
     <div class="form-group row">
-      {{#if user.local}}
+      {{#if suser.local}}
         <label class="col-sm-2 col-form-label">Email</label>
         <div class="col-sm-10">
-          <p class="form-control-static">{{user.local.email}}</p>
+          <p class="form-control-static">{{suser.local.email}}</p>
         </div>
       {{/if}}
       <label class="col-sm-2 col-form-label">Дата регистрации</label>

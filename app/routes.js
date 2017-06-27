@@ -28,8 +28,7 @@ router.get('/', (req, res) => {
  */
 router.get('/signin', authhelper.requireAnon, (req, res) => {
   res.render('signin', {
-    title: 'Вход' + config.title,
-    user: req.user
+    title: 'Вход' + config.title
   })
 });
 
@@ -38,8 +37,7 @@ router.get('/signin', authhelper.requireAnon, (req, res) => {
  */
 router.get('/signup', authhelper.requireAnon, (req, res) => {
   res.render('signup', {
-    title: 'Регистрация' + config.title,
-    user: req.user
+    title: 'Регистрация' + config.title
   })
 });
 
@@ -53,13 +51,15 @@ router.get('/user/:username', (req, res, next) => {
         const regDate = new Date(user.createdAt);
         res.render('user', {
           title: `Пользователь ${user.username}` + config.title,
-          user: user,
-          regDate: moment(regDate).format('DD.MM.YYYY HH:MM')
+          suser: user,
+          regDate: moment(regDate).format('DD.MM.YYYY HH:MM'),
+          user: req.user
         });
       } else {
         res.render('user', {
           title: 'Пользователь не найден' + config.title,
-          user: null
+          suser: null,
+          user: req.user
         });
       }
     })
