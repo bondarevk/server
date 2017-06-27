@@ -52,11 +52,10 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
       req.session.authConnect = info;
       res.redirect('/auth-connect');
     } else {
-
+      
       if (req.isAuthenticated()) {
-        let message = '';
         if (info.vkontakte) {
-          message = `Аккаунт ВКонтакте \"${info.vkontakte.name}\" уже используется для авторизации на сайте.`;
+          message = `Аккаунт ВКонтакте "${user.vkontakte.name}" уже используется для авторизации на сайте.`;
         }
         return res.render('error', {
           title: 'Ошибка' + config.title,
