@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
 /**
  * Форма аутентификации
  */
-router.get('/signin', (req, res) => {
+router.get('/signin', authhelper.requireAnon, (req, res) => {
   res.render('signin', {
     title: 'Вход' + config.title,
     user: req.user
@@ -36,7 +36,7 @@ router.get('/signin', (req, res) => {
 /**
  * Форма регистрации
  */
-router.get('/signup', (req, res) => {
+router.get('/signup', authhelper.requireAnon, (req, res) => {
   res.render('signup', {
     title: 'Регистрация' + config.title,
     user: req.user
@@ -80,8 +80,8 @@ router.get('/auth/vkontakte/callback', authhelper.oauthCallbackAuthenticate('vko
 /**
  * Local Auth
  */
-router.post('/signup', reCaptcha.validate, signupController);
-router.post('/signin', authhelper.authenticate('local'), (req, res) => {
+router.post('/signup', authhelper.requireAnon, reCaptcha.validate, signupController);
+router.post('/signin', authhelper.requireAnon, authhelper.authenticate('local'), (req, res) => {
   res.json({ result: true });
 });
 router.post('/check-username', checkusernameController);
@@ -89,7 +89,7 @@ router.post('/check-username', checkusernameController);
 /**
  * Завершение регистрации аккаунта (oauth)
  */
-router.get('/auth-connect', (req, res, next) => {
+router.get('/auth-connect', authhelper.requireAnon, (req, res, next) => {
   const authConnect = req.session.authConnect;
   if (!authConnect) {
     res.redirect('/');
@@ -110,7 +110,7 @@ router.get('/auth-connect', (req, res, next) => {
     })
   }
 });
-router.post('/auth-connect', (req, res, next) => {
+router.post('/auth-connect', authhelper.requireAnon, (req, res, next) => {
   const username = req.body.username;
   const authConnect = req.session.authConnect;
   if (!username || !authConnect) {
