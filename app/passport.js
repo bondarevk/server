@@ -52,20 +52,6 @@ const vkontakteStrategy = new VKontakteStrategy(
               email: params.email
             }
           });
-          // const newUser = new User({
-          //   'username': profile.username,
-          //   'vkontakte.id': profile.id,
-          //   'vkontakte.name': profile.displayName,
-          //   'vkontakte.profileUrl': profile.profileUrl,
-          //   'vkontakte.email': params.email,
-          // });
-          // newUser.save()
-          //   .then((user) => {
-          //     done(null, user);
-          //   })
-          //   .catch((error) => {
-          //     done(error);
-          //   })
         }
       })
       .catch((error) => {
