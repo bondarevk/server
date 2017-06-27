@@ -14,14 +14,14 @@ const localStrategy = new LocalStrategy({
   dbhelper.findUser(username)
     .then((user) => {
       if (!user) {
-        return done(null, false, { message: 'Неверный логин.', message_code: 2, result: false });
+        return done(null, null, { message: 'Неверный логин.', message_code: 2, result: false });
       }
       user.compareLocalPassword(password, (error, result) => {
         if (error) {
           return done(error);
         }
         if (!result) {
-          return done(null, false, { message: 'Неверный пароль.', message_code: 3, result: false });
+          return done(null, null, { message: 'Неверный пароль.', message_code: 3, result: false });
         }
         return done(null, user);
       });
@@ -44,20 +44,26 @@ const vkontakteStrategy = new VKontakteStrategy(
         if (user) {
           return done(null, user);
         } else {
-          const newUser = new User({
-            'username': profile.username,
+          return done(null, null, {
             'vkontakte.id': profile.id,
             'vkontakte.name': profile.displayName,
             'vkontakte.profileUrl': profile.profileUrl,
-            'vkontakte.email': params.email,
+            'vkontakte.email': params.email
           });
-          newUser.save()
-            .then((user) => {
-              done(null, user);
-            })
-            .catch((error) => {
-              done(error);
-            })
+          // const newUser = new User({
+          //   'username': profile.username,
+          //   'vkontakte.id': profile.id,
+          //   'vkontakte.name': profile.displayName,
+          //   'vkontakte.profileUrl': profile.profileUrl,
+          //   'vkontakte.email': params.email,
+          // });
+          // newUser.save()
+          //   .then((user) => {
+          //     done(null, user);
+          //   })
+          //   .catch((error) => {
+          //     done(error);
+          //   })
         }
       })
       .catch((error) => {

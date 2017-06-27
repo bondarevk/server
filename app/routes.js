@@ -70,8 +70,8 @@ router.get('/user/:username', (req, res, next) => {
 /**
  * VK Auth
  */
-router.get('/auth/vkontakte', authhelper.authenticate('vkontakte'));
-router.get('/auth/vkontakte/callback', authhelper.authenticate('vkontakte'), (req, res, next) => {
+router.get('/auth/vkontakte', authhelper.authenticate('vkontakte', { scope: ['email'] }));
+router.get('/auth/vkontakte/callback', authhelper.oauthCallbackAuthenticate('vkontakte'), (req, res) => {
   console.log(req.user);
   res.redirect('/');
 });
@@ -80,10 +80,24 @@ router.get('/auth/vkontakte/callback', authhelper.authenticate('vkontakte'), (re
  * Local Auth
  */
 router.post('/signup', reCaptcha.validate, signupController);
-router.post('/signin', authhelper.authenticate('local'), (req, res, next) => {
+router.post('/signin', authhelper.authenticate('local'), (req, res) => {
   res.json({ result: true });
 });
 router.post('/check-username', checkusernameController);
+
+/**
+ * Завершене привязки аккаунта
+ */
+router.get('/auth-connect', (req, res, next) => {
+  if (!req.session.authConnect) {
+    res.redirect('/');
+  } else {
+    res.render('authconnect.hbs', {
+      title: 'Привязка аккаунта',
+      authConnect: req.session.authConnect
+    })
+  }
+});
 
 /**
  * Выход
