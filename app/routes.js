@@ -109,6 +109,9 @@ router.get('/auth-connect', (req, res, next) => {
     })
   }
 });
+router.post('/auth-connect', (req, res, next) => {
+  res.json({ message: 'Тест.', message_code: 1, result: false })
+});
 
 /**
  * Выход

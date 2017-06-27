@@ -87,7 +87,7 @@ function inputUsernameValidator(value) {
 
 checkUsernameInput();
 
-$('#signupForm').submit(function (event) {
+$('#connectForm').submit(function (event) {
   event.preventDefault();
   var connectButton = $('#connectButton');
   var connectAlertText = $('#connectAlertText');
@@ -102,5 +102,25 @@ $('#signupForm').submit(function (event) {
     return;
   }
 
-  alert('ok');
+  $.ajax({
+    type: 'POST',
+    url: '/auth-connect',
+    data: { username: inputUsername.val() }
+  })
+    .done(function (res) {
+      if (res.result === false) {
+        connectAlertText.html('<strong>Ошибка!</strong> ' + res.message);
+        connectAlert.show(100);
+        connectButton.prop('disabled', false);
+        if (res.message_code === 3)
+          checkUsernameInput();
+      } else if (res.result === true) {
+        document.location.href = '/';
+      }
+    })
+    .fail(function () {
+      connectAlertText.html('<strong>Ошибка!</strong> Не удалось отправить запрос на создание аккаунта.');
+      connectAlert.show(100);
+      connectButton.prop('disabled', false);
+    });
 });
