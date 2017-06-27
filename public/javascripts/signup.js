@@ -210,15 +210,13 @@ function inputEmailValidator(value) {
  */
 
 function checkAllInputs(focus) {
+  checkUsernameInput();
+  checkPasswordInput();
+  checkPasswordRepeatInput();
+  checkEmailInput();
+
   var fields = $('.form-control').not('.form-control-success');
   if (fields.length > 0) {
-    checkUsernameInput();
-    checkPasswordInput();
-    checkPasswordRepeatInput();
-    checkEmailInput();
-    fields.each(function (index) {
-      $(this).popover('hide');
-    });
     if (focus)
       fields[0].focus();
     return false;
