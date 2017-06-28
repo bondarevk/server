@@ -69,13 +69,25 @@ exports.oauthCallbackAuthenticate = (name, options) => (req, res, next) => {
           message: message
         });
       }
-      req.logIn(user, function(err) {
-        if (err) {
-          return next(err);
-        }
-        next();
-      })
 
+      // Обновляем информацию аккаунта
+      if (info.vkontakte) {
+        user.vkontakte = info.vkontakte;
+      } else if (info.google) {
+        user.google = info.google;
+      }
+      user.save()
+        .then((user) => {
+          req.logIn(user, function(err) {
+            if (err) {
+              return next(err);
+            }
+            next();
+          })
+        })
+        .catch((error) => {
+          return next(error);
+        });
     }
   })(req, res, next);
 };
