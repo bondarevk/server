@@ -1,9 +1,67 @@
-.app-body {
-  margin-top: 20px;
+html, body {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
 }
 
 .home-header {
   margin-bottom: 20px;
+}
+
+.app-body {
+  margin-top: 20px;
+}
+
+nav {
+  flex-shrink: 0;
+}
+
+/*
+  Chat
+ */
+
+.chat-body {
+  margin-top: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 30vh;
+}
+
+.chat-panel {
+  min-height: 300px;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  border: .2rem solid #f7f7f9;
+}
+
+.chat-panel ul {
+  list-style-type: none;
+  overflow-y: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-panel ul li {
+  margin: 5px 10px;
+}
+
+.chat-panel ul li:nth-child(odd) {
+
+}
+
+.chat-panel .input-group {
+  border: .2rem solid #f7f7f9;
+  border-top: .4rem solid #f7f7f9;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.chat-panel input {
+
 }
 
 /*

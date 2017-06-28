@@ -26,6 +26,17 @@ router.get('/', (req, res) => {
 /**
  * Форма аутентификации
  */
+router.get('/chat', (req, res) => {
+  res.render('chat', {
+    title: 'Чат' + config.title,
+    customContainer: true,
+    user: req.user
+  })
+});
+
+/**
+ * Форма аутентификации
+ */
 router.get('/signin', authhelper.requireAnon, (req, res) => {
   res.render('signin', {
     title: 'Вход' + config.title

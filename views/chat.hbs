@@ -1,0 +1,17 @@
+<div class="container chat-body">
+  <h3>Чат</h3>
+  <div class="chat-panel">
+    <ul class="chat">
+    </ul>
+    <form id="sendForm">
+      <div class="input-group">
+        <input id="messageInput" type="text" class="form-control" placeholder="Сообщение" {{#ifnot user}}readonly{{/ifnot}}>
+        <span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit" {{#ifnot user}}disabled{{/ifnot}}>Отправить</button>
+      </span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/javascripts/chat.js"></script>

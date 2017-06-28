@@ -10,6 +10,7 @@
   <script src="/javascripts/libs/jquery-3.2.1.js"></script>
   <script src="/javascripts/libs/tether.js"></script>
   <script src="/javascripts/libs/bootstrap.js"></script>
+  <script src="/javascripts/libs/socket.io.js"></script>
   <script src="/javascripts/global.js"></script>
   <link rel='stylesheet' href='/stylesheets/libs/tether.css'/>
   <link rel='stylesheet' href='/stylesheets/libs/bootstrap.css'/>
@@ -32,7 +33,7 @@
           <a class="nav-link active" href="/">Главная <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Чат</a>
+          <a class="nav-link" href="/chat">Чат</a>
         </li>
       </ul>
 
@@ -64,8 +65,13 @@
     </div>
   </div>
 </nav>
-<div class="container app-body">
+{{#if customContainer}}
   {{{body}}}
-</div>
+{{else}}
+  <div class="container app-body">
+    {{{body}}}
+  </div>
+{{/if}}
+
 </body>
 </html>
