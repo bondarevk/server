@@ -48,7 +48,7 @@ router.get('/account', authhelper.requireSignin, (req, res) => {
   const regDate = new Date(req.user.createdAt);
   res.render('account', {
     title: 'Личный кабинет' + config.title,
-    regDate: moment(regDate).format('DD.MM.YYYY HH:MM'),
+    regDate: moment(regDate).format('DD.MM.YYYY HH:mm'),
     user: req.user
   })
 });
@@ -64,7 +64,7 @@ router.get('/user/:username', (req, res, next) => {
         res.render('user', {
           title: `Пользователь ${user.username}` + config.title,
           suser: user,
-          regDate: moment(regDate).format('DD.MM.YYYY HH:MM'),
+          regDate: moment(regDate).format('DD.MM.YYYY HH:mm'),
           user: req.user
         });
       } else {
