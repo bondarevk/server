@@ -13,7 +13,7 @@
     {{/if}}
     <label class="col-sm-2 col-form-label">Дата регистрации</label>
     <div class="col-sm-10">
-      <p class="form-control-static">{{regDate}}</p>
+      <p class="form-control-static">{{formatDate user.createdAt}}</p>
     </div>
   </div>
 </div>
@@ -61,9 +61,9 @@
   </div>
 {{/if}}
 
-{{#ifnot user.vkontakte.id}}
+{{#unless user.vkontakte.id}}
   <a class="btn btn-outline-primary mt-1" href="/auth/vkontakte" role="button">Привязать аккаунт Вконтакте</a>
-{{/ifnot}}
-{{#ifnot user.google.id}}
+{{/unless}}
+{{#unless user.google.id}}
   <a class="btn btn-outline-primary mt-1" href="/auth/google" role="button">Привязать аккаунт Google</a>
-{{/ifnot}}
+{{/unless}}

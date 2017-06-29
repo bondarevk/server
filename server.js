@@ -60,20 +60,7 @@ io.use(passportSocketIo.authorize({
   }
 }));
 require('./app/chat')(io);
-
-
-hbs.registerHelper('ifor', function(v1, v2, options) {
-  if(v1 || v2) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
-hbs.registerHelper('ifnot', function(v1, options) {
-  if(!v1) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
+require('./app/hbs')(hbs);
 
 app.use(routes);
 

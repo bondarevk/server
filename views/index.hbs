@@ -1,21 +1,66 @@
 <div class="jumbotron">
 
-  <div class="col-sm-10 mx-auto row">
-    <h1 class="display-4 home-header">Используемые технологии</h1>
-    <div class="col-lg-5">
-      <h4>Nginx</h4>
-      <p>SSL Let's Encrypt, Reverse Proxy</p>
+  <div class="col-sm-10 mx-auto">
+    <h1 class="display-4 mb-4">Используемые технологии</h1>
+    <div class="mx-auto row">
+      <div class="col-lg-5">
+        <h4>Node.js</h4>
+        <p>Express, Handlebars, Passport, Mongoose, Socket.io, PM2, Google&VK OAuth</p>
 
-      <h4>Node.js</h4>
-      <p>Express, Mongoose, Passport, Socket.io</p>
+        <h4>Ubuntu Server</h4>
+        <p>Firewall, Public Key Authentication</p>
+      </div>
+
+      <div class="col-lg-5">
+        <h4>Nginx</h4>
+        <p>SSL Encryption A+ Grade, Reverse Proxy, IPv6</p>
+
+        <h4>MongoDB</h4>
+        <p>Session Store, Users</p>
+      </div>
     </div>
 
-    <div class="col-lg-5">
-      <h4>MongoDB</h4>
-      <p>Session store, Users</p>
+    <h1 class="display-4 mt-4">GitHub</h1>
 
-      <h4>Ubuntu</h4>
-      <p>Firewall, Public Key Authentication, PM2</p>
-    </div>
+    <a class="github-button" href="https://github.com/bondarevk" data-size="large" aria-label="Follow @bondarevk on GitHub">Follow @bondarevk</a>
+    <a class="github-button" href="https://github.com/bondarevk/server" data-icon="octicon-eye" data-size="large" aria-label="Watch bondarevk/server on GitHub">Watch</a><!-- Place this tag where you want the button to render. -->
+    <a class="github-button" href="https://github.com/bondarevk/server" data-icon="octicon-star" data-size="large" aria-label="Star bondarevk/server on GitHub">Star</a>
+
+
+    <h1 class="display-4 mt-4">Пользователи</h1>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Ник</th>
+        <th>Вконтакте</th>
+        <th>Google</th>
+        <th>Дата регистрации</th>
+      </tr>
+      </thead>
+      <tbody>
+      {{#each users}}
+        <tr>
+          <td>{{inc @index}}</td>
+          <td>{{this.username}}</td>
+
+          {{#if this.vkontakte.id}}
+            <td>{{this.vkontakte.profileUrl}}</td>
+          {{else}}
+            <td>-</td>
+          {{/if}}
+
+          {{#if this.google.id}}
+            <td>{{firstof this.google.emails}}</td>
+          {{else}}
+            <td>-</td>
+          {{/if}}
+
+          <td>{{formatDate this.createdAt}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
   </div>
+</div>
 </div>

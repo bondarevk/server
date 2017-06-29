@@ -1,6 +1,5 @@
 const express = require('express');
 const passport = require('passport');
-const moment = require('moment');
 
 const User = require('./models/user');
 const config = require('../config/main.json');
@@ -16,11 +15,19 @@ const router = express.Router();
 /**
  * Главная страница
  */
-router.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Главная' + config.title,
-    user: req.user
-  })
+router.get('/', (req, res, next) => {
+  User.find()
+    .then((users) => {
+      console.log(users);
+      res.render('index', {
+        title: 'Главная' + config.title,
+        user: req.user,
+        users: users
+      })
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 /**
@@ -59,7 +66,6 @@ router.get('/account', authhelper.requireSignin, (req, res) => {
   const regDate = new Date(req.user.createdAt);
   res.render('account', {
     title: 'Личный кабинет' + config.title,
-    regDate: moment(regDate).format('DD.MM.YYYY HH:mm'),
     user: req.user
   })
 });
@@ -75,7 +81,6 @@ router.get('/user/:username', (req, res, next) => {
         res.render('user', {
           title: `Пользователь ${user.username}` + config.title,
           suser: user,
-          regDate: moment(regDate).format('DD.MM.YYYY HH:mm'),
           user: req.user
         });
       } else {

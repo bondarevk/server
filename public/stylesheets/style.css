@@ -4,10 +4,6 @@ html, body {
   flex-flow: column;
 }
 
-.home-header {
-  margin-bottom: 20px;
-}
-
 .app-body {
   margin-top: 20px;
 }

@@ -12,7 +12,7 @@
           <input id="messageInput" type="text" class="form-control" autocomplete="off" placeholder="Для отправки сообщений вы должны авторизоваться" readonly>
         {{/if}}
         <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit" {{#ifnot user}}disabled{{/ifnot}}>Отправить</button>
+        <button class="btn btn-secondary" type="submit" {{#unless user}}disabled{{/unless}}>Отправить</button>
       </span>
       </div>
     </form>
