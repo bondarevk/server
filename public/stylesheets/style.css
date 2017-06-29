@@ -54,10 +54,14 @@ nav {
 }
 
 .chat-panel .input-group {
+}
+
+.chat-panel form {
   border: .2rem solid #f7f7f9;
-  border-top: .4rem solid #f7f7f9;
+  border-top: 0;
   flex-grow: 0;
   flex-shrink: 0;
+  background-color: #f7f7f9;
 }
 
 .chat-panel input {

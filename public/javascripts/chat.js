@@ -1,5 +1,6 @@
 var chatMessages = $('.chat');
 var messageInput = $('#messageInput');
+var activity = $('#activity');
 
 var chat = io.connect('//' + window.location.host);
 
@@ -13,10 +14,37 @@ chat.on('messages', function (messages) {
   addMessagesAndScroll(messages);
 });
 
+chat.on('activity', function (names) {
+  if (names.length === 0) {
+    activity.html('&nbsp;');
+    return;
+  }
+
+  var text = '';
+  names.forEach(function (name, index, arr) {
+    text += name;
+    if (index < arr.length - 1) {
+      text += ', ';
+    }
+  });
+
+  activity.text(text + ' набирает сообщение..')
+});
+
+messageInput.on('input', function (event) {
+  var text = event.target.value;
+  if (text.length > 0) {
+    chat.emit('chat activity', true);
+  }
+  if (text.length === 0) {
+    chat.emit('chat activity', false);
+  }
+});
 
 function sendMessage() {
   if (messageInput.val()) {
     chat.emit('chat message', messageInput.val());
+    chat.emit('chat activity', false);
     messageInput.val('');
   }
 }

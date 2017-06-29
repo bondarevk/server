@@ -4,8 +4,13 @@
     <ul class="chat">
     </ul>
     <form id="sendForm">
+      <small class="ml-1" id="activity">&nbsp;</small>
       <div class="input-group">
-        <input id="messageInput" type="text" class="form-control" placeholder="Сообщение" {{#ifnot user}}readonly{{/ifnot}}>
+        {{#if user}}
+          <input id="messageInput" type="text" class="form-control" autocomplete="off" placeholder="Сообщение">
+        {{else}}
+          <input id="messageInput" type="text" class="form-control" autocomplete="off" placeholder="Для отправки сообщений вы должны авторизоваться" readonly>
+        {{/if}}
         <span class="input-group-btn">
         <button class="btn btn-secondary" type="submit" {{#ifnot user}}disabled{{/ifnot}}>Отправить</button>
       </span>
