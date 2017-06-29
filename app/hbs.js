@@ -19,9 +19,9 @@ module.exports = (hbs) => {
     return parseInt(value) + 1;
   });
 
-  hbs.registerHelper("firstof", function(array, options)
+  hbs.registerHelper("firstofEmails", function(array, options)
   {
-    return array[0];
+    return array[0].value;
   });
 
 };
