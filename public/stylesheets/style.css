@@ -12,10 +12,6 @@ nav {
   flex-shrink: 0;
 }
 
-.table-responsive {
-  display: table;
-}
-
 .info-h {
   height: 48px;
 }
